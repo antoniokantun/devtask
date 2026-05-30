@@ -1,4 +1,4 @@
-# Gestor de Tareas (Prueba Técnica)
+# DevTask (Prueba Técnica)
 
 Esta es una aplicación web para la gestión de tareas personales, desarrollada como prueba técnica. Cumple con los requerimientos de crear, listar, editar y eliminar tareas, incluyendo categorización dinámica, filtrado a nivel de servidor y manejo de estados.
 
