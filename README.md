@@ -32,9 +32,11 @@ Para levantar este proyecto en tu entorno local, asegúrate de tener instalado:
    ```bash
    cp .env.example .env
 
-   Genera la clave de la aplicación:
-   ```bash
+    Genera la clave de la aplicación:
+
+
    php artisan key:generate
+  
    
 4. **Configuración de SQL Server (.env):**
     Abre el archivo .env y ajusta el bloque de base de datos para que apunte a tu instancia local de SQL Server. Ejemplo:
