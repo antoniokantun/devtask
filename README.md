@@ -14,6 +14,9 @@ Para levantar este proyecto en tu entorno local, asegúrate de tener instalado:
 * Node.js y npm
 * SQL Server (y SSMS preferentemente)
 * **Importante:** Los drivers `pdo_sqlsrv` y `sqlsrv` deben estar instalados y habilitados en tu archivo `php.ini`.
+* Descarga oficial:
+
+[Microsoft Drivers for PHP for SQL Server](https://learn.microsoft.com/en-us/sql/connect/php/download-drivers-php-sql-server?view=sql-server-ver17)
 
 ## 🚀 Instrucciones de Instalación
 
@@ -52,7 +55,7 @@ Para levantar este proyecto en tu entorno local, asegúrate de tener instalado:
    (Asegúrate de haber creado la base de datos devtask vacía en SSMS antes de continuar).
    
 5. **Ejecutar Migraciones y Seeders:**
-    Este comando creará las tablas necesarias y cargará las categorías iniciales (Trabajo, Personal, Compras):
+    Este comando creará las tablas necesarias y cargará las categorías iniciales (Trabajo, Personal, Compras) y algunos registros de tareas:
 
     ```bash
    php artisan migrate --seed
