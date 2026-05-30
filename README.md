@@ -32,9 +32,8 @@ Para levantar este proyecto en tu entorno local, asegúrate de tener instalado:
    ```bash
    cp .env.example .env
 
-    Genera la clave de la aplicación:
-
-
+   Genera la clave de la aplicación:
+   
    php artisan key:generate
   
    
@@ -76,7 +75,7 @@ Para levantar este proyecto en tu entorno local, asegúrate de tener instalado:
 
 ### 2. Respuestas del Cuestionario Teórico
 
-Puedes agregar esta sección al final de tu `README.md` o crear un archivo separado llamado `CUESTIONARIO.md`. Estas son las respuestas correctas a las opciones planteadas en el documento [cite: 37, 38-102]:
+Estas son las respuestas correctas a las opciones planteadas en el documento:
 
 * **Pregunta 1:** C) Usando el método `Inertia::render('Nombre Componente', ['datos' => $datos])`.
 * **Pregunta 2:** D) El hook `useForm` de `@inertiajs/React`. 
