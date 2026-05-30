@@ -21,3 +21,15 @@ Para levantar este proyecto en tu entorno local, asegúrate de tener instalado:
    ```bash
    git clone <URL_DE_TU_REPOSITORIO>
    cd devtask
+   
+2. **Instalar dependencias de PHP y Node:**
+    ```bash
+    composer install
+    npm install
+
+3. **Configurar las variables de entorno:**
+    Duplica el archivo de ejemplo y renómbralo:
+   ```bash
+   cp .env.example .env
+   
+5. 
