@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('titulo');
             $table->text('descripcion');
             $table->date('fecha_vencimiento');
-            $table->string('estado')->default('pendiente');
-            $table->timestamp('fecha_completado');
+            $table->string('estado')->default('Pendiente');
+            $table->timestamp('fecha_completado')->nullable();
             $table->foreignId('categoria_id')->constrained('categorias');
             $table->softDeletes();
             $table->timestamps();
