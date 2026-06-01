@@ -51,45 +51,39 @@ Abre tu terminal (Símbolo del sistema o PowerShell) y ejecuta estos comandos pa
    extension=php_sqlsrv_82_ts_x64.dll
    extension=php_pdo_sqlsrv_82_ts_x64.dll
 
-### Guarda los cambios en el archivo.
+### Paso E: Guarda los cambios en el archivo.
 
 ### Paso crítico: Cierra todas tus terminales y reinicia tu servidor web local (Apache/Nginx en XAMPP o Laragon) para que PHP cargue la nueva configuración.
 
-## Habilitar el Puerto 1433 en SQL Server
+## 2. Habilitar el Puerto 1433 en SQL Server
 
-Por defecto, cuando instalas **SQL** Server (especialmente la versión Express), Microsoft lo configura para usar *Puertos Dinámicos* por razones de seguridad. Esto significa que cada vez que reinicias la PC, el puerto cambia. Laravel necesita un puerto estático para conectarse, y el estándar universal para **SQL** Server es el **1433**.
+**¿Por qué es necesario?**
+Por defecto, al instalar SQL Server (especialmente las ediciones Express), Microsoft lo configura para utilizar "Puertos Dinámicos" por motivos de seguridad. Esto hace que el puerto de conexión cambie cada vez que se reinicia el servicio. Sin embargo, frameworks como Laravel necesitan apuntar a un puerto estático constante. El estándar universal de la industria para SQL Server es el puerto **1433**.
 
-Así es como lo fijas:
+### Paso A: Abrir el Administrador de Configuración
+1. Presiona la tecla Windows, busca y abre el **Administrador de configuración de SQL Server** (SQL Server Configuration Manager). 
+> *Nota: Esta es una herramienta administrativa del sistema, independiente de SQL Server Management Studio (SSMS).*
 
-Paso A: Abrir el Administrador de Configuración Presiona la tecla Windows en tu teclado y busca Administrador de configuración de **SQL** Server (**SQL** Server Configuration Manager). Es una herramienta independiente de **SSMS**.
+### Paso B: Habilitar el protocolo TCP/IP
+1. En el panel izquierdo, expande la sección **Configuración de red de SQL Server** (SQL Server Network Configuration).
+2. Selecciona **Protocolos de SQLEXPRESS** (el nombre puede variar según tu instancia, ej. MSSQLSERVER).
+3. En el panel derecho, verifica el estado del protocolo **TCP/IP**. Si dice "Deshabilitado", haz clic derecho sobre él y selecciona **Habilitar**.
 
-Paso B: Habilitar **TCP**/IP En el panel izquierdo, despliega Configuración de red de **SQL** Server (**SQL** Server Network Configuration).
+### Paso C: Configurar el Puerto Estático 1433
+1. Haz clic derecho nuevamente sobre **TCP/IP** y selecciona **Propiedades**.
+2. Dirígete a la pestaña **Direcciones IP**.
+3. Desplázate hasta la última sección de la lista, llamada **IPAll** (Todas las IP).
+4. Realiza estos dos ajustes fundamentales:
+   * **Puertos dinámicos TCP** (TCP Dynamic Ports): Borra cualquier número que aparezca aquí. Debe quedar completamente en blanco.
+   * **Puerto TCP** (TCP Port): Escribe el número **1433**.
+5. Haz clic en **Aplicar** y luego en **Aceptar**. El sistema te mostrará una advertencia indicando que los cambios no surtirán efecto hasta que se reinicie el servicio.
 
-Haz clic en Protocolos de **SQLEXPRESS** (o el nombre de tu instancia, como **MSSQLSERVER**).
+### Paso D: Reiniciar el Servicio de SQL Server
+1. En el mismo Administrador de Configuración, ve al panel izquierdo y selecciona **Servicios de SQL Server** (SQL Server Services).
+2. En el panel derecho, localiza el servicio del motor de base de datos (usualmente nombrado como `SQL Server (SQLEXPRESS)` o similar).
+3. Haz clic derecho sobre este servicio y selecciona **Reiniciar**.
 
-En el panel derecho, verás un protocolo llamado **TCP**/IP. Si está deshabilitado, haz clic derecho sobre él y selecciona Habilitar.
-
-Paso C: Configurar el Puerto **1433** Haz clic derecho de nuevo sobre **TCP**/IP y selecciona Propiedades.
-
-Ve a la pestaña Direcciones IP.
-
-Desplázate hasta el fondo, hasta la sección que dice IPAll (Todas las IP).
-
-Aquí está el truco:
-
-Donde dice Puertos dinámicos **TCP** (**TCP** Dynamic Ports), borra cualquier número que haya. Déjalo completamente en blanco.
-
-Donde dice Puerto **TCP** (**TCP** Port), escribe **1433**.
-
-Haz clic en Aplicar y luego en Aceptar. Te saldrá una advertencia diciendo que debes reiniciar el servicio.
-
-Paso D: Reiniciar el Servicio de **SQL** Server En el mismo Administrador de Configuración, ve a la parte superior del panel izquierdo y haz clic en Servicios de **SQL** Server (**SQL** Server Services).
-
-En el panel derecho, busca el servicio principal (usualmente se llama **SQL** Server (**SQLEXPRESS**)).
-
-Haz clic derecho sobre él y selecciona Reiniciar.
-
-Una vez hecho esto, tu entorno estará perfectamente preparado. Tu archivo .env en Laravel podrá comunicarse por el puerto **1433** a través de los drivers de **PHP** que acabas de instalar, y comandos como php artisan migrate funcionarán sin arrojar errores de conexión.
+¡Listo! Con esto, tu entorno local en Windows está perfectamente configurado. Tu archivo `.env` de Laravel podrá establecer una conexión exitosa a través del puerto 1433 utilizando los drivers nativos de PHP.
 
 ## 🚀 Instrucciones de Instalación
 
