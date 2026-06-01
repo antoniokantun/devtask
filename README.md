@@ -18,37 +18,42 @@ Para levantar este proyecto en tu entorno local, asegúrate de tener instalado:
 
 [Microsoft Drivers for PHP for SQL Server](https://learn.microsoft.com/en-us/sql/connect/php/download-drivers-php-sql-server?view=sql-server-ver17)
 
-## Los Drivers de PHP (sqlsrv y pdo_sqlsrv)
+# Guía de Configuración: PHP y SQL Server en Windows
 
-**PHP** no se comunica con **SQL** Server por arte de magia; necesita unos *traductores* (drivers) creados por Microsoft. Como **PHP** se actualiza constantemente, Microsoft lanza versiones específicas de estos archivos .dll para cada versión de **PHP**. Si usas un driver que no coincide con tu versión exacta de **PHP**, simplemente no cargará.
+Entender a fondo esta configuración es vital, ya que conectar PHP con SQL Server suele ser el mayor obstáculo inicial en este tipo de proyectos. Al dominar esta parte, garantizas que Laravel pueda comunicarse fluidamente con la base de datos local.
 
-Paso A: Identificar tu versión exacta de **PHP** Abre tu terminal y ejecuta estos comandos para saber qué descargar:
+## 1. Los Drivers de PHP (`sqlsrv` y `pdo_sqlsrv`)
 
-php -v: Te dirá tu versión (por ejemplo, 8.1, 8.2 o 8.3).
+**¿Por qué son necesarios?**
+PHP no se comunica con SQL Server de forma nativa; necesita "traductores" (drivers) creados específicamente por Microsoft. Como PHP se actualiza constantemente, Microsoft lanza versiones de estos archivos `.dll` para cada versión de PHP. Si usas un driver que no coincide exactamente con la arquitectura y versión de tu PHP, la conexión fallará.
 
-php -i | findstr *Thread*: Esto es crucial. Te dirá si tu **PHP** es Thread Safe (TS) o Non-Thread Safe (**NTS**). Si usas **XAMPP** o Laragon, casi siempre es Thread Safe.
+### Paso A: Identificar tu versión exacta de PHP
+Abre tu terminal (Símbolo del sistema o PowerShell) y ejecuta estos comandos para saber qué versión descargar:
+1. Ejecuta `php -v`: Te dirá tu versión exacta (por ejemplo, 8.1, 8.2 o 8.3).
+2. Ejecuta `php -i | findstr "Thread"`: Esto es crucial. Te indicará si tu instalación de PHP es *Thread Safe* (TS) o *Non-Thread Safe* (NTS). Si utilizas herramientas como XAMPP o Laragon, casi siempre será *Thread Safe*.
 
-Paso B: Descargar y extraer los archivos Ve a la página oficial de Microsoft Drivers for **PHP** for **SQL** Server.
+### Paso B: Descargar y extraer los archivos
+1. Ve a la página oficial de descargas: **Microsoft Drivers for PHP for SQL Server**.
+2. Descarga el archivo ejecutable (`.exe`) correspondiente a tu versión de Windows. Este archivo funciona como un extractor.
+3. Al extraerlo, verás una lista extensa de archivos `.dll`. Debes elegir únicamente los dos que coincidan con tu sistema. Por ejemplo, si tienes PHP 8.2, es Thread Safe (TS) y tu sistema es de 64 bits (x64), debes buscar:
+   * `php_sqlsrv_82_ts_x64.dll`
+   * `php_pdo_sqlsrv_82_ts_x64.dll`
 
-Descarga el ejecutable (suele ser un archivo .exe que solo extrae archivos).
+### Paso C: Ubicar los archivos en la carpeta `ext`
+1. Busca el directorio donde está instalado PHP en tu computadora (si usas XAMPP, la ruta típica es `C:\xampp\php\ext`).
+2. Copia los dos archivos `.dll` seleccionados en el paso anterior y pégalos directamente dentro de esa carpeta `ext`.
 
-Al extraerlo, verás una lista enorme de archivos .dll. Debes elegir solo dos que coincidan con tu sistema. Por ejemplo, si tienes **PHP** 8.2 y es Thread Safe (TS) de 64 bits (x64), buscarás:
+### Paso D: Habilitar los drivers en el archivo `php.ini`
+1. En el directorio principal de PHP (ej. `C:\xampp\php`), localiza el archivo de configuración principal llamado `php.ini` y ábrelo con un editor de texto (como el Bloc de notas o VS Code).
+2. Busca la sección de extensiones dinámicas (donde hay múltiples líneas que comienzan con `extension=`).
+3. Al final de esa lista, agrega los nombres exactos de los archivos que pegaste en la carpeta `ext`:
+   ```ini
+   extension=php_sqlsrv_82_ts_x64.dll
+   extension=php_pdo_sqlsrv_82_ts_x64.dll
 
-php_sqlsrv_82_ts_x64.dll
+### Guarda los cambios en el archivo.
 
-php_pdo_sqlsrv_82_ts_x64.dll
-
-Paso C: Pegar los archivos en la carpeta ext Busca dónde está instalado tu **PHP** (si usas **XAMPP**, suele estar en C:\xampp\php\ext).
-
-Copia los dos archivos .dll que elegiste y pégalos directamente dentro de esa carpeta ext.
-
-Paso D: Habilitarlos en el php.ini En la carpeta principal de tu **PHP** (ej. C:\xampp\php), busca el archivo llamado php.ini y ábrelo con un editor de texto.
-
-Busca la sección donde hay muchas líneas que empiezan con extension=.
-
-Al final de esa lista, agrega los nombres exactos de los archivos que pegaste, de esta manera:
-
-Ini, **TOML** extension=php_sqlsrv_82_ts_x64.dll extension=php_pdo_sqlsrv_82_ts_x64.dll Guarda el archivo. Muy importante: Cierra todas tus terminales y reinicia tu servidor local para que **PHP** lea la nueva configuración.
+### Paso crítico: Cierra todas tus terminales y reinicia tu servidor web local (Apache/Nginx en XAMPP o Laragon) para que PHP cargue la nueva configuración.
 
 ## Habilitar el Puerto 1433 en SQL Server
 
